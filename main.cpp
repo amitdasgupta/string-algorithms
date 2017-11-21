@@ -20,7 +20,7 @@ int matchBrute(string a,string b)
     }
 }
 *//////////////
-/**************create hash function*/////////////////////
+/**************create hash function
 long hashOfString(string a,int start,int last)
 {
     long has=0;
@@ -32,6 +32,8 @@ long hashOfString(string a,int start,int last)
     }
     return has;
 }
+*/////////////////////
+/****************rabin karp algorithm implementation
 int stringMatchingRabinKarp(string a,string b)
 {
     long i=0,j,p,t,m=a.size(),n=b.size();
@@ -40,7 +42,7 @@ int stringMatchingRabinKarp(string a,string b)
    // cout<<p<<" "<<t;
     for(i=0;i<=n-m;i++)
     {
-        cout<<p<<" "<<t<<endl;
+      //  cout<<p<<" "<<t<<endl;
         j=0;
         if(p==t)
         {
@@ -60,11 +62,68 @@ int stringMatchingRabinKarp(string a,string b)
             return -1;
     }
 }
-
+**///////////
+/*****************function to show an array*///////////
+void printArray(int *arr,int n)
+{
+    cout<<endl;
+    for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+}
+/**********************prefix table for kmp*//////////////
+void prefixTable(int* &arr,string p)
+{
+    int i=1,j=0,n=p.size();
+    arr=new int[n];
+    arr[j]=0;
+    while(i<n)
+    {
+        if(p[i]==p[j])
+        {
+            arr[i]=j+1;
+            i++;
+            j++;
+        }
+        else
+            if(j>0)
+        {
+           j=arr[j-1];
+        }
+        else
+        {
+            arr[i]=0;
+            i++;
+        }
+    }
+    printArray(arr,n);
+}
+/********************kmp string matching alggorithm*//////////////////
+int kmpStringMatchingAlgo(string s,string p)
+{
+    int *arr,sl=s.size(),pl=p.size(),i=0,j=0;
+    prefixTable(arr,p);
+    while(i<sl)
+    {
+        if(s[i]==p[j])
+        {
+            if(j==(pl-1))
+                return i-j;
+            j++;
+            i++;
+        }
+        else
+            if(j>0)
+        {
+            j=arr[j-1];
+        }
+        else
+            i++;
+    }
+}
 int main()
 {
-    string a,b;
-    cin>>a>>b;
-    cout<<stringMatchingRabinKarp(a,b);
+    string p,s;
+    cin>>s>>p;
+    cout<<kmpStringMatchingAlgo(s,p);
     return 0;
 }
